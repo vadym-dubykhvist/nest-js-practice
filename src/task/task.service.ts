@@ -9,11 +9,17 @@ export class TaskService {
       id: 1,
       title: 'Nest js',
       isCompleted: false,
+      description: '',
+      priority: 1,
+      tags: [] as string[],
     },
     {
       id: 2,
       title: 'Nest js 2',
       isCompleted: true,
+      description: '',
+      priority: 2,
+      tags: [] as string[],
     },
   ];
   findAll() {
@@ -31,11 +37,14 @@ export class TaskService {
   }
 
   create(dto: CreateTaskDto) {
-    const { title } = dto;
+    const { title, description, priority, tags } = dto;
 
     const newTask = {
       id: this.tasks.length + 1,
-      title: title,
+      title,
+      description,
+      priority,
+      tags: tags,
       isCompleted: false,
     };
 
