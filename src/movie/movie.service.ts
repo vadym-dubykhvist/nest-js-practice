@@ -5,29 +5,27 @@ import { Movie } from 'generated/prisma';
 
 @Injectable()
 export class MovieService {
-  constructor(
-    private readonly prismaService: PrismaService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
     return await this.prismaService.movie.findMany({
       where: {
-        isAvailable: true
+        isAvailable: true,
       },
       orderBy: {
-        createdAt: "desc"
+        createdAt: 'desc',
       },
       select: {
         id: true,
         title: true,
-actors: {
+        actors: {
           select: {
             id: true,
-            name: true
-          }
-        }
+            name: true,
+          },
+        },
       },
-    })
+    });
   }
 
   async findById(id: string): Promise<Movie> {
@@ -39,7 +37,7 @@ actors: {
         actors: true,
         poster: true,
         reviews: true,
-      }
+      },
     });
 
     if (!movie || !movie.isAvailable) throw new NotFoundException();
@@ -52,7 +50,7 @@ actors: {
 
     const actors = await this.prismaService.actor.findMany({
       where: {
-        id: {in: actorIds},
+        id: { in: actorIds },
       },
     });
 
@@ -61,19 +59,23 @@ actors: {
 
     const movie = this.prismaService.movie.create({
       data: {
-        title, releaseYear, poster: imageUrl ? {
-          create: {
-            url: imageUrl
-          }
-        } : undefined,
-        actors: {
-          connect: actors.map(actor => {
-            return {
-              id: actor.id
+        title,
+        releaseYear,
+        poster: imageUrl
+          ? {
+              create: {
+                url: imageUrl,
+              },
             }
-          })
-        }
-      }
+          : undefined,
+        actors: {
+          connect: actors.map((actor) => {
+            return {
+              id: actor.id,
+            };
+          }),
+        },
+      },
     });
     return await movie;
   }
@@ -83,33 +85,35 @@ actors: {
 
     const actors = await this.prismaService.actor.findMany({
       where: {
-        id: {in: dto.actorIds},
+        id: { in: dto.actorIds },
       },
     });
 
     await this.prismaService.movie.update({
       where: {
-        id: movie.id
+        id: movie.id,
       },
       data: {
         title: dto.title,
         releaseYear: dto.releaseYear,
-        poster: dto.imageUrl ? {
-          create: {
-            url: dto.imageUrl
-          }
-        } : undefined,
-        actors: {
-          connect: actors.map(actor => {
-            return {
-              id: actor.id
+        poster: dto.imageUrl
+          ? {
+              create: {
+                url: dto.imageUrl,
+              },
             }
-          })
-        }
-      }
-    })
+          : undefined,
+        actors: {
+          connect: actors.map((actor) => {
+            return {
+              id: actor.id,
+            };
+          }),
+        },
+      },
+    });
 
-    return true
+    return true;
   }
 
   async delete(id: string): Promise<string> {
@@ -117,9 +121,9 @@ actors: {
 
     await this.prismaService.movie.delete({
       where: {
-        id: movie.id
-      }
-    })
+        id: movie.id,
+      },
+    });
 
     return 'Deleted ' + movie.id;
   }

@@ -5,18 +5,16 @@ import { Actor } from 'generated/prisma';
 
 @Injectable()
 export class ActorService {
-  constructor(
-    private readonly prismaService: PrismaService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(dto: CreateActorDto): Promise<Actor> {
     const { name } = dto;
 
     const actor = await this.prismaService.actor.create({
       data: {
-        name
-      }
-    })
+        name,
+      },
+    });
 
     return actor;
   }

@@ -4,8 +4,7 @@ import { ReviewController } from './review.controller';
 import { MovieService } from 'src/movie/movie.service';
 
 @Module({
-  imports: [
-  ],
+  imports: [],
   controllers: [ReviewController],
   providers: [ReviewService, MovieService],
 })
