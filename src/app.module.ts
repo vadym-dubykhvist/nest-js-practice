@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './prisma/prisma.module';
+import { SpotifyModule } from './spotify/spotify.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MovieModule } from './movie/movie.module';
-import { ConfigModule } from '@nestjs/config';
-import { ReviewModule } from './review/review.module';
-import { ActorModule } from './actor/actor.module';
-import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -13,9 +11,7 @@ import { PrismaModule } from './prisma/prisma.module';
       isGlobal: true,
     }),
     PrismaModule,
-    MovieModule,
-    ReviewModule,
-    ActorModule,
+    SpotifyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
