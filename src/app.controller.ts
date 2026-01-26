@@ -1,14 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('App')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello() {
-    return this.appService.getHello();
+  @Get('/artists/:id')
+  async getArtist(@Param('id') id: string) {
+    return this.appService.getArtist(id);
+  }
+
+  @Get('/albums/:id')
+  async getAlbum(@Param('id') id: string) {
+    return this.appService.getAlbum(id);
   }
 }
